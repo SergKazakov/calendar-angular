@@ -1,0 +1,14 @@
+{
+  "name": "calendar-angular",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp":                     "latest",
+    "gulp-autoprefixer":        "latest",
+    "gulp-ruby-sass":           "latest",
+    "browser-sync":             "latest"
+  },
+  "engines": {
+    "node":                     "latest"
+  }
+}
