@@ -42,7 +42,13 @@ angular.module('app')
 
         $scope.selectDay = function(_day) {
             $scope.day = _day.number;
-            transition();
+            if (_day.isOld) {
+                $scope.prevMonth();
+            } else if (_day.isNew) {
+                $scope.nextMonth();
+            } else {
+                transition();
+            }
         };
 
         $scope.today = function() {
@@ -54,6 +60,7 @@ angular.module('app')
 
         var getWeeks = function(_year, _month, _day) {
             var dayInThisMonth = new Date(_year, _month, 0).getDate(),
+                dayInPrevMonth = new Date(_year, _month - 1, 0).getDate(),
                 arrayOfWeeks = [],
                 week = [],
                 today = {
@@ -64,14 +71,31 @@ angular.module('app')
                 firstWeekDay = new Date(_year, _month - 1, 1).getDay();
 
             firstWeekDay = firstWeekDay === 0 ? 7 : firstWeekDay;
-            for (var weekDay = 1; weekDay < firstWeekDay; weekDay++) {
-                week.push({
-                    number: "",
-                    isSelected: false,
-                    isCurrent: false
-                });
+            var oldStart = firstWeekDay > 1 ? dayInPrevMonth - firstWeekDay + 2 : dayInPrevMonth - 6,
+                newStart = 1;
+
+            if (firstWeekDay === 1) {
+                for (var i = 0; i < 7; i++) {
+                    week.push({
+                        number: oldStart++,
+                        isSelected: false,
+                        isCurrent: false,
+                        isOld: true,
+                        isNew: false
+                    });
+                }
+            } else {
+                for (var weekDay = 1; weekDay < firstWeekDay; weekDay++) {
+                    week.push({
+                        number: oldStart++,
+                        isSelected: false,
+                        isCurrent: false,
+                        isOld: true,
+                        isNew: false
+                    });
+                }
             }
-            weekDay = firstWeekDay;
+
             for (var dayCounter = 1; dayCounter <= dayInThisMonth; dayCounter++) {
                 if (week.length === 7) {
                     arrayOfWeeks.push(week);
@@ -80,10 +104,36 @@ angular.module('app')
                 week.push({
                     number: dayCounter,
                     isSelected: dayCounter === _day,
-                    isCurrent: _year === today.year && _month === today.month && dayCounter === today.day
+                    isCurrent: _year === today.year && _month === today.month && dayCounter === today.day,
+                    isOld: false,
+                    isNew: false
+                });
+            }
+
+            while (week.length < 7) {
+                week.push({
+                    number: newStart++,
+                    isSelected: false,
+                    isCurrent: false,
+                    isOld: false,
+                    isNew: true
                 });
             }
             arrayOfWeeks.push(week);
+
+            if (arrayOfWeeks.length < 6) {
+                week = [];
+                while (week.length < 7) {
+                    week.push({
+                        number: newStart++,
+                        isSelected: false,
+                        isCurrent: false,
+                        isOld: false,
+                        isNew: true
+                    });
+                }
+                arrayOfWeeks.push(week);
+            }
             return arrayOfWeeks;
         };
 

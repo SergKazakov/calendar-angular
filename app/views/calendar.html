@@ -3,32 +3,32 @@
         <thead class="calendar-header">
             <tr>
                 <th>
-                    <button class="btn btn-default" ng-click="prevYear()">‹</button>
+                    <button class="btn btn-default btn-round" ng-click="prevYear()">‹</button>
                 </th>
                 <th>
-                    <button class="btn btn-default" ng-click="prevMonth()">‹</button>
+                    <button class="btn btn-default btn-round" ng-click="prevMonth()">‹</button>
                 </th>
                 <th colspan=3 class="switch" ng-click="today()">{{year}} {{month | monthToString}} {{day}}</th>
                 <th>
-                    <button class="btn btn-default" ng-click="nextMonth()">›</button>
+                    <button class="btn btn-default btn-round" ng-click="nextMonth()">›</button>
                 </th>
                 <th>
-                    <button class="btn btn-default" ng-click="nextYear()">›</button>
+                    <button class="btn btn-default btn-round" ng-click="nextYear()">›</button>
                 </th>
             </tr>
             <tr>
-                <th>Mo</th>
-                <th>Tu</th>
-                <th>We</th>
-                <th>Th</th>
-                <th>Fr</th>
-                <th>Sa</th>
-                <th>Su</th>
+                <th>Пн</th>
+                <th>Вт</th>
+                <th>Ср</th>
+                <th>Чт</th>
+                <th>Пт</th>
+                <th>Сб</th>
+                <th>Вс</th>
             </tr>
         </thead>
         <tbody class="calendar-body">
             <tr ng-repeat="week in weeks">
-                <td ng-repeat="day in week" class="day" ng-class="{current:day.isCurrent, active:day.isSelected}" ng-click="selectDay(day)">{{day.number}}</td>
+                <td ng-repeat="day in week" class="day" ng-class="{current:day.isCurrent, active:day.isSelected, old:day.isOld, new:day.isNew}" ng-click="selectDay(day)">{{day.number}}</td>
             </tr>
         </tbody>
     </table>
